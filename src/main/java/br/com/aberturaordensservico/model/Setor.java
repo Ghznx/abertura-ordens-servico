@@ -3,6 +3,7 @@ package br.com.aberturaordensservico.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
@@ -14,13 +15,14 @@ public class Setor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     
     private int id;
+
+    @NotBlank(message = "O nome do setor não pode ser vazio") 
     private String nome;
 
     public Setor() {
     }
 
-    public Setor(int id, String nome) {
-        this.id = id;
+    public Setor(String nome) {
         this.nome = nome;
     }
 
