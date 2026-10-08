@@ -15,8 +15,8 @@ public class Setor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     
     private int id;
-
-    @NotBlank(message = "O nome do setor não pode ser vazio") 
+    
+    @NotBlank (message = "O nome do setor não pode ser vazio") 
     private String nome;
 
     public Setor() {

@@ -49,20 +49,20 @@ public class EquipamentoController {
 
         Optional<Equipamento> equipamento = equipamentoService.buscarPorId(id);
 
-        if(equipamento.isPresent()) {
-            return ResponseEntity.ok(equipamento.get());
-        } 
-        return ResponseEntity.notFound().build();
+        if(equipamento.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(equipamento.get());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Equipamento> atualizar(@PathVariable Integer id, @RequestBody Equipamento equipamentoAtualizado) {
+    public ResponseEntity<Equipamento> atualizar(@Valid @PathVariable Integer id, @RequestBody Equipamento equipamentoAtualizado) {
         Optional<Equipamento> equipamento = equipamentoService.atualizar(id, equipamentoAtualizado);
 
-        if(equipamento.isPresent()) {
-            return ResponseEntity.ok(equipamento.get());
-        } 
-        return ResponseEntity.notFound().build();
+        if(equipamento.isEmpty()) {
+            ResponseEntity.status(404).body("Equipamento não encontrado");
+        }
+        return ResponseEntity.ok(equipamento.get());
     }
 
     @DeleteMapping("/{id}")

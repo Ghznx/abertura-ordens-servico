@@ -46,20 +46,20 @@ public class SetorController {
 
         Optional<Setor> setor = setorService.buscarPorId(id);
 
-        if(setor.isPresent()) {
-            return ResponseEntity.ok(setor.get());
-        } 
-        return ResponseEntity.notFound().build();
+        if(setor.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(setor.get());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Setor> atualizar(@PathVariable Integer id, @RequestBody Setor setorAtualizado) {
+    public ResponseEntity<Setor> atualizar(@Valid @PathVariable Integer id, @RequestBody Setor setorAtualizado) {
         Optional<Setor> setor = setorService.atualizar(id, setorAtualizado);
 
-        if(setor.isPresent()) {
-            return ResponseEntity.ok(setor.get());
-        } 
-        return ResponseEntity.notFound().build();
+        if(setor.isEmpty()) {
+            ResponseEntity.status(404).body("Setor não encontrado");
+        }
+        return ResponseEntity.ok(setor.get());
     }
 
     @DeleteMapping("/{id}")
