@@ -19,22 +19,21 @@ public class EquipamentoService {
         this.setorRepository = setorRepository;
     }
 
-    public Equipamento cadastrar(String nome, String numeroPatrimonio, Integer setorId) {
+    public Optional<Equipamento> cadastrar(String nome, String numeroPatrimonio, Integer setorId) {
 
-        Optional<Setor> setor = setorRepository.findById(setorId);
+        Optional<Setor> setorEncontrado = setorRepository.findById(setorId);
 
-        boolean existe = setorRepository.existsById(setorId);
-
-        if (!existe) {
-            throw new IllegalArgumentException("Setor não encontrado");
+        if(setorEncontrado.isEmpty()) {
+            return Optional.empty();
         }
 
         Equipamento equipamento = new Equipamento();
+        
         equipamento.setNome(nome);
         equipamento.setNumeroPatrimonio(numeroPatrimonio);
-        equipamento.setSetor(setor.get());
+        equipamento.setSetor(setorEncontrado.get());
 
-        return equipamentoRepository.save(equipamento);
+        return Optional.of(equipamentoRepository.save(equipamento));
     }
 
     public List<Equipamento> listar() {
