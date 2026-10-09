@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import br.com.aberturaordensservico.model.Setor;
 import br.com.aberturaordensservico.repository.SetorRepository;
-
+import br.com.aberturaordensservico.dto.EquipamentoRequest;
 import br.com.aberturaordensservico.model.Equipamento;
 import br.com.aberturaordensservico.repository.EquipamentoRepository;
 
@@ -26,9 +26,9 @@ public class EquipamentoService {
         if(setorEncontrado.isEmpty()) {
             return Optional.empty();
         }
-
-        Equipamento equipamento = new Equipamento();
         
+        Equipamento equipamento = new Equipamento();
+
         equipamento.setNome(nome);
         equipamento.setNumeroPatrimonio(numeroPatrimonio);
         equipamento.setSetor(setorEncontrado.get());
@@ -45,16 +45,24 @@ public class EquipamentoService {
     }
 
     public Optional<Equipamento> atualizar(
-          Integer id, Equipamento novosDados) {
+          Integer id, EquipamentoRequest novosDados) {
         Optional<Equipamento> equipamentoEncontrado = equipamentoRepository.findById(id);
 
         if(equipamentoEncontrado.isEmpty()) {
             return Optional.empty();
         }
 
+        Optional<Setor> setorEncontrado = setorRepository.findById(novosDados.getSetorId());
+
+        if(setorEncontrado.isEmpty()) {
+            return Optional.empty();
+        }
+
         Equipamento equipamento = equipamentoEncontrado.get();
+        
         equipamento.setNome(novosDados.getNome());
         equipamento.setNumeroPatrimonio(novosDados.getNumeroPatrimonio());
+        equipamento.setSetor(setorEncontrado.get());
 
         return Optional.of(equipamentoRepository.save(equipamento));
     }

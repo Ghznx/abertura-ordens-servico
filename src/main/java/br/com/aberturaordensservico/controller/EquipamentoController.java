@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.aberturaordensservico.dto.EquipamentoRequest;
 import br.com.aberturaordensservico.model.Equipamento;
-import br.com.aberturaordensservico.model.Setor;
 import br.com.aberturaordensservico.service.EquipamentoService;
 import jakarta.validation.Valid;
 
@@ -29,12 +29,12 @@ public class EquipamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@Valid @RequestBody Equipamento equipamento) {
+    public ResponseEntity<?> cadastrar(@Valid @RequestBody EquipamentoRequest equipamento) {
         String nome = equipamento.getNome();
         String numeroPatrimonio = equipamento.getNumeroPatrimonio();
-        Setor setor = equipamento.getSetor();
+        Integer setorId = equipamento.getSetorId();
 
-        Optional<Equipamento> novoEquipamento = equipamentoService.cadastrar(nome, numeroPatrimonio, setor.getId());
+        Optional<Equipamento> novoEquipamento = equipamentoService.cadastrar(nome, numeroPatrimonio, setorId);
 
         if(novoEquipamento.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Setor não encontrado");
@@ -61,11 +61,11 @@ public class EquipamentoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Equipamento> atualizar(@Valid @PathVariable Integer id, @RequestBody Equipamento equipamentoAtualizado) {
+    public ResponseEntity<?> atualizar(@PathVariable Integer id,@Valid  @RequestBody EquipamentoRequest equipamentoAtualizado) {
         Optional<Equipamento> equipamento = equipamentoService.atualizar(id, equipamentoAtualizado);
 
         if(equipamento.isEmpty()) {
-            ResponseEntity.status(404).body("Equipamento não encontrado");
+            return ResponseEntity.status(404).body("Equipamento não encontrado");
         }
         return ResponseEntity.ok(equipamento.get());
     }
