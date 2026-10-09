@@ -1,0 +1,37 @@
+package br.com.aberturaordensservico.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public class OrdemServicoRequest {
+    
+    @NotBlank (message = "Descrição da ordem de serviço é obrigatória")
+    private String descricao;
+
+    @NotNull (message = "ID do equipamento é obrigatório")
+    private Integer equipamentoId;
+
+    public OrdemServicoRequest() {
+    }
+
+    public OrdemServicoRequest(String descricao, Integer equipamentoId) {
+        this.descricao = descricao;
+        this.equipamentoId = equipamentoId;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Integer getEquipamentoId() {
+        return equipamentoId;
+    }
+
+    public void setEquipamentoId(Integer equipamentoId) {
+        this.equipamentoId = equipamentoId;
+    }
+}
