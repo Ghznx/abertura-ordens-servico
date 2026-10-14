@@ -22,6 +22,9 @@ public class OrdemServico {
 
     private LocalDateTime dataAbertura;
 
+    private LocalDateTime dataEncerramento;
+
+    private String solucao;
 
     @ManyToOne
     @JoinColumn (name = "equipamento_id") 
@@ -30,9 +33,11 @@ public class OrdemServico {
     public OrdemServico() {
     }
 
-    public OrdemServico(String descricao, LocalDateTime dataAbertura, Equipamento equipamento) {
+    public OrdemServico(String descricao, LocalDateTime dataAbertura, LocalDateTime dataEncerramento, String solucao, Equipamento equipamento) {
         this.descricao = descricao;
         this.dataAbertura = dataAbertura;
+        this.dataEncerramento = dataEncerramento;
+        this.solucao = solucao;
         this.equipamento = equipamento;
     }
 
@@ -62,5 +67,21 @@ public class OrdemServico {
 
     public Equipamento getEquipamento() {
         return equipamento;
+    }
+
+    public void setDataEncerramento(LocalDateTime dataEncerramento) {
+        this.dataEncerramento = dataEncerramento;
+    }
+
+    public LocalDateTime getDataEncerramento() {
+        return dataEncerramento;
+    }
+
+    public void setSolucao(String solucao) {
+        this.solucao = solucao;
+    }
+
+    public String getSolucao() {
+        return solucao;
     }
 }
